@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Заявка на подарок · Анна Морозова</title>
+<meta name="description" content="Заявка на подарок с доставкой в ПВЗ: Россия, Беларусь, Казахстан. Подарки до 2000 ₽." />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>" />
+<style>
+  :root{
+    --bg:#f6f4ef; --card:#fff; --ink:#1f2430; --soft:#5b6472; --mute:#8b93a1;
+    --line:#e7e1d6; --line2:#d8d0c2; --accent:#7c5cff; --accent-soft:#efeaff;
+    --red:#dc2626; --red-soft:#fdeaea; --green:#16a34a;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:radial-gradient(900px 460px at 15% -10%, #efe9ff, #f6f4ef 70%);
+    color:var(--ink); font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased;
+    min-height:100vh; padding:22px 14px 60px;
+  }
+  .card{max-width:620px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:22px;
+    padding:0 0 28px;box-shadow:0 2px 4px rgba(31,36,48,.04),0 20px 50px rgba(31,36,48,.08);overflow:hidden}
+
+  /* ---- шапка с профилем ---- */
+  .profile{padding:22px 24px 18px;background:linear-gradient(135deg,#f3efff 0%,#fff5f7 100%);border-bottom:1px solid var(--line)}
+  .profile-top{display:flex;gap:14px;align-items:center}
+  .avatar{
+    width:60px;height:60px;border-radius:50%;flex:none;display:grid;place-items:center;
+    background:linear-gradient(135deg,#7c5cff,#ff6f91);color:#fff;font-weight:750;font-size:21px;letter-spacing:.02em;
+    box-shadow:0 4px 14px rgba(124,92,255,.28);
+  }
+  .who h1{font-size:21px;margin:0;letter-spacing:-.03em;line-height:1.2}
+  .who .spec{font-size:13px;color:#5b4b8a;font-weight:650;margin-top:1px}
+  .who .handle{font-size:13px;color:var(--mute);margin-top:1px}
+  .tagline{font-size:13.5px;color:var(--soft);margin:12px 0 0}
+  .topics{display:inline-block;margin-top:8px;background:#fff;border:1px solid var(--line);border-radius:999px;
+    padding:4px 12px;font-size:12.5px;color:#5b4b8a;font-weight:600}
+  .thr{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-size:13.5px;font-weight:700;
+    color:#1f2430;text-decoration:none;border-bottom:1px solid #d9d2e8;padding-bottom:1px}
+  .thr:hover{color:var(--accent);border-color:var(--accent)}
+
+  .inner{padding:22px 24px 0}
+  h2.form-title{font-size:18px;margin:0 0 4px;letter-spacing:-.02em}
+  .form-sub{font-size:13.5px;color:var(--soft);margin:0 0 16px}
+  .notice{background:var(--accent-soft);border:1px solid #ddd3ff;border-radius:14px;padding:12px 14px;
+    font-size:13.5px;color:#4a3f7a;margin:0 0 20px}
+  .notice b{color:#2d2358}
+
+  .grp{border-top:1px solid var(--line);padding-top:16px;margin-top:18px}
+  .grp:first-of-type{border-top:0;padding-top:0;margin-top:0}
+  .grp h3{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute);margin:0 0 10px;font-weight:700}
+  .field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  label{font-size:13px;font-weight:650;color:var(--soft)}
+  label .req{color:#e2557a}
+  input,select,textarea{
+    font:inherit;padding:11px 13px;border-radius:12px;border:1px solid var(--line2);background:#fff;width:100%;color:var(--ink)
+  }
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  textarea{resize:vertical;min-height:64px}
+  .hint{font-size:12px;color:var(--mute)}
+  .calc{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--accent-soft);border:1px solid #ddd3ff;
+    border-radius:13px;padding:11px 14px;margin-top:4px;font-size:14px}
+  .calc.over{background:var(--red-soft);border-color:#f5c9c9}
+  .calc b{font-size:19px;letter-spacing:-.02em}
+  .calc.over b{color:var(--red)}
+  button.primary{width:100%;margin-top:18px;padding:14px;border-radius:14px;border:0;font:inherit;font-weight:700;
+    background:var(--ink);color:#fff;cursor:pointer;font-size:15.5px}
+  button.primary:hover{background:#000}
+  button.primary:disabled{opacity:.6;cursor:not-allowed}
+  .err{background:var(--red-soft);color:var(--red);border-radius:11px;padding:10px 12px;font-size:13.5px;margin-top:12px;display:none}
+  .err.show{display:block}
+  .foot{text-align:center;font-size:12.5px;color:var(--mute);margin-top:16px}
+  .success{display:none;text-align:center;padding:8px 0 0}
+  .success.show{display:block}
+  .success .big{font-size:46px;margin-bottom:8px}
+  .success h2{font-size:21px;margin:0 0 8px}
+  .success p{color:var(--soft);font-size:14.5px;margin:0 0 8px}
+  .num{display:inline-block;background:#f6f4ef;border:1px dashed var(--line2);border-radius:10px;padding:6px 12px;font-weight:700;margin:6px 0 12px}
+  .steps{text-align:left;background:#fbf8f3;border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-top:14px;font-size:14px}
+  .steps ol{margin:6px 0 0;padding-left:20px}
+  .steps li{margin-bottom:6px}
+  @media (max-width:520px){
+    .row{grid-template-columns:1fr}
+    .card{border-radius:18px}
+    .profile{padding:18px 16px 16px}
+    .inner{padding:18px 16px 0}
+    h1{font-size:19px}
+  }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <!-- ================= ПРОФИЛЬ ================= -->
+  <div class="profile">
+    <div class="profile-top">
+      <div class="avatar">АМ</div>
+      <div class="who">
+        <h1>Анна Морозова</h1>
+        <div class="spec">врач и мама</div>
+        <div class="handle">dr.annamorozova</div>
+      </div>
+    </div>
+    <p class="tagline">Врач, мама и ваш фильтр на всё интересное</p>
+    <span class="topics">🩺 Здоровье • beauty • дети • жизнь</span>
+    <div><a class="thr" href="https://www.threads.com/@dr.annamorozova" target="_blank" rel="noopener">Threads → @dr.annamorozova</a></div>
+    <p class="hint" style="margin:10px 0 0">Только то, что я действительно выбираю сама :)</p>
+  </div>
+
+  <!-- ================= ФОРМА ================= -->
+  <div class="inner" id="form-wrap">
+    <h2 class="form-title">Заявка на подарок 🎁</h2>
+    <p class="form-sub">Заполните 8 полей — я оформлю заказ на ваш пункт выдачи</p>
+
+    <div class="notice" id="notice">
+      Подарки — <b>до 2000 ₽</b>. Принимаю заявки из <b>России, Беларуси и Казахстана</b>.
+      Оформляю 1–3 дня, потом пришлю номер заказа и трек.
+    </div>
+
+    <form id="req-form" novalidate>
+      <div class="grp">
+        <h3>1. Кто вы</h3>
+        <div class="row">
+          <div class="field">
+            <label>Имя <span class="req">*</span></label>
+            <input name="clientName" required placeholder="Аня" autocomplete="given-name" />
+          </div>
+          <div class="field">
+            <label>Ник в Threads <span class="req">*</span></label>
+            <input name="threadsNick" required placeholder="@nickname" />
+          </div>
+        </div>
+        <span class="hint">По нику я нахожу ваше сообщение в Threads — больше ничего не нужно.</span>
+      </div>
+
+      <div class="grp">
+        <h3>2. Куда доставить (ПВЗ)</h3>
+        <div class="row">
+          <div class="field">
+            <label>Страна <span class="req">*</span></label>
+            <select name="country" id="country">
+              <option value="RU">Россия</option>
+              <option value="BY">Беларусь</option>
+              <option value="KZ">Казахстан</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Город <span class="req">*</span></label>
+            <input name="city" required placeholder="Москва / Минск / Алматы" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Пункт выдачи <span class="req">*</span></label>
+          <select name="pvzOperator" id="pvzOperator"></select>
+          <span class="hint" id="pvzHint"></span>
+        </div>
+        <div class="field">
+          <label>Адрес ПВЗ полностью <span class="req">*</span></label>
+          <textarea name="pvzAddress" required placeholder="Город, улица, дом — скопируйте из приложения маркетплейса"></textarea>
+        </div>
+        <div class="field">
+          <label>Код / название пункта (если есть)</label>
+          <input name="pvzCode" placeholder="напр. Минск_0451" />
+        </div>
+      </div>
+
+      <div class="grp">
+        <h3>3. Подарок</h3>
+        <div class="field">
+          <label>Ссылка на подарок <span class="req">*</span></label>
+          <input name="giftLink" id="giftLink" required placeholder="https://www.ozon.ru/product/…" inputmode="url" />
+        </div>
+        <div class="field">
+          <label>Что это (коротко)</label>
+          <input name="giftName" placeholder="напр. набор для вязания" />
+        </div>
+        <div class="row">
+          <div class="field">
+            <label>Цена <span class="req">*</span></label>
+            <input name="giftPrice" id="giftPrice" type="number" step="0.01" min="0" required placeholder="0" inputmode="decimal" />
+          </div>
+          <div class="field">
+            <label>Валюта</label>
+            <select name="currency" id="currency">
+              <option value="RUB">₽ рубли</option>
+              <option value="BYN">Br белорусские рубли</option>
+              <option value="KZT">₸ тенге</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Количество</label>
+          <input name="qty" id="qty" type="number" min="1" step="1" value="1" />
+        </div>
+        <div class="calc" id="calc"><div>Итого в рублях:</div><b id="calcTotal">0 ₽</b><div class="hint" id="calcNote"></div></div>
+      </div>
+
+      <div class="grp">
+        <h3>4. Комментарий</h3>
+        <div class="field">
+          <textarea name="comment" placeholder="Пожелания, размер, цвет, «без чека» — всё, что важно"></textarea>
+        </div>
+      </div>
+
+      <button class="primary" type="submit" id="submit-btn">Отправить заявку 🎁</button>
+      <div class="err" id="form-err"></div>
+      <div class="foot">Отправляя форму, вы соглашаетесь, что данные (имя, ник, адрес ПВЗ) используются только для оформления доставки подарка.</div>
+    </form>
+  </div>
+
+  <!-- ================= УСПЕХ ================= -->
+  <div class="inner">
+    <div class="success" id="success">
+      <div class="big">🎉</div>
+      <h2>Заявка принята!</h2>
+      <p>Ваш номер заявки:</p>
+      <div class="num" id="success-num">№—</div>
+      <div class="steps">
+        <b>Что дальше:</b>
+        <ol>
+          <li>Я проверю ссылку и наличие товара.</li>
+          <li>Оформлю заказ на ваш ПВЗ и пришлю номер заказа.</li>
+          <li>Когда посылка приедет в пункт выдачи — придёт уведомление в приложение маркетплейса.</li>
+          <li>Забрать нужно в течение 3–7 дней, иначе заказ вернётся на склад.</li>
+        </ol>
+      </div>
+      <p class="hint" style="margin-top:14px">Если что-то изменится — напишите мне в Threads.</p>
+      <button class="primary" style="background:#fff;color:var(--ink);border:1px solid var(--line2)" onclick="location.reload()">Отправить ещё одну заявку</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ==========================================================================
+   ★ ЕДИНСТВЕННОЕ, ЧТО НУЖНО НАСТРОИТЬ ★
+
+   Вставьте между кавычками ссылку вашего веб-приложения Google Apps Script.
+   Она выглядит так:  https://script.google.com/macros/s/ДЛИННЫЙ_КОД/exec
+   (как её получить — написано в файле README.md, шаг 2)
+
+   Пока ссылка пустая — форма покажет ошибку при отправке.
+   ========================================================================== */
+const API_ENDPOINT = 'https://script.google.com/macros/s/AKfycbzdVHDZoG2fDa6JP3iu_eXguZCqYzP8HwD47ydXOBM8OW7lUIrsu_1rep9c4Abir1xg6Q/exec';
+</script>
+<script>
+const PVZ = {
+  RU: { list: ['Ozon', 'Wildberries', 'Яндекс Маркет', 'Почта России / 5Post', 'СДЭК', 'Другое'], hint: 'Укажите пункт, в который вам удобно забрать.' },
+  BY: { list: ['Ozon (Беларусь)', 'Wildberries (wildberries.by)', 'Европочта', 'Белпочта', 'СДЭК (Беларусь)', 'Другое'], hint: 'В Беларуси работают ПВЗ Ozon и Wildberries — берите адрес из их приложения.' },
+  KZ: { list: ['Wildberries (kz.wildberries.ru)', 'Ozon (Казахстан)', 'Kaspi постомат', 'Казпочта', 'СДЭК (Казахстан)', 'Другое'], hint: 'В Казахстане работают ПВЗ Wildberries и Ozon — берите адрес из приложения.' },
+};
+let rates = { RUB: 1, BYN: 27.6, KZT: 0.157 };
+let budget = 2000;
+
+const $ = (s) => document.querySelector(s);
+const fmt = (n) => new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 0 }).format(Math.round(n)) + ' ₽';
+
+function setCountry(c) {
+  const conf = PVZ[c] || PVZ.RU;
+  $('#pvzOperator').innerHTML = conf.list.map((o) => `<option>${o}</option>`).join('');
+  $('#pvzHint').textContent = conf.hint;
+  $('#currency').value = c === 'BY' ? 'BYN' : c === 'KZ' ? 'KZT' : 'RUB';
+  recalc();
+}
+function recalc() {
+  const price = Number($('#giftPrice').value) || 0;
+  const qty = Math.max(1, Number($('#qty').value) || 1);
+  const cur = $('#currency').value;
+  const rub = price * qty * (rates[cur] || 1);
+  const over = rub > budget + 0.01;
+  $('#calcTotal').textContent = fmt(rub);
+  $('#calc').classList.toggle('over', over);
+  $('#calcNote').textContent = over
+    ? `это больше лимита ${fmt(budget)} — я напишу вам, чтобы выбрать вариант`
+    : `лимит ${fmt(budget)} — в порядке`;
+}
+
+$('#country').addEventListener('change', (e) => setCountry(e.target.value));
+['#giftPrice', '#qty', '#currency'].forEach((s) => $(s).addEventListener('input', recalc));
+$('#currency').addEventListener('change', recalc);
+$('#giftLink').addEventListener('blur', (e) => {
+  const l = e.target.value.toLowerCase();
+  if (!l) return;
+  const op = $('#pvzOperator');
+  const pick = (needle) => [...op.options].find((o) => o.text.includes(needle));
+  if (l.includes('wildberries') && pick('Wildberries')) op.value = pick('Wildberries').value;
+  else if (l.includes('ozon') && pick('Ozon')) op.value = pick('Ozon').value;
+});
+
+$('#req-form').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const f = new FormData(e.target);
+  const data = Object.fromEntries(f.entries());
+  const err = $('#form-err');
+  err.classList.remove('show');
+  if (!data.clientName || !data.threadsNick || !data.city || !data.pvzAddress || !data.giftLink || !data.giftPrice) {
+    err.textContent = 'Заполните, пожалуйста, все поля со звёздочкой (*)';
+    err.classList.add('show');
+    return;
+  }
+  data.source = 'Threads';
+  data.internalNote = data.comment ? 'Комментарий клиента: ' + data.comment : '';
+  delete data.comment;
+
+  const btn = $('#submit-btn');
+  btn.disabled = true;
+  btn.textContent = 'Отправляю…';
+  try {
+    let out = {};
+    if (!API_ENDPOINT) {
+      throw new Error('форма ещё не подключена к таблице — напишите мне в Threads');
+    }
+    {
+      // статичный хостинг: заявка уходит прямо в Google Таблицу
+      const res = await fetch(API_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'create', record: data }),
+      });
+      try { out = await res.json(); } catch (_) { out = { ok: true }; }
+      if (out && out.ok === false) throw new Error(out.error || 'Не удалось сохранить заявку');
+    }
+    $('#form-wrap').style.display = 'none';
+    $('#success').classList.add('show');
+    $('#success-num').textContent = out.num ? '№' + out.num : 'принята';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } catch (error) {
+    err.textContent = 'Ошибка: ' + error.message + '. Попробуйте ещё раз или напишите мне в Threads.';
+    err.classList.add('show');
+    btn.disabled = false;
+    btn.textContent = 'Отправить заявку 🎁';
+  }
+});
+
+setCountry($('#country').value);
+</script>
+<!-- Страница заявки. Файл можно свободно менять: текст, цвета, поля. -->
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a5e22a3b3ca58f27',t:'MTc5NTI5MDAxMw=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a5e22a3b3ca58f27',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

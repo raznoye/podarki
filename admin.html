@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Заявки · Анна Морозова</title>
+<meta name="robots" content="noindex" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>" />
+<style>
+  :root{
+    --bg:#f6f4ef; --card:#fff; --ink:#1f2430; --soft:#5b6472; --mute:#8b93a1;
+    --line:#e7e1d6; --line2:#d8d0c2; --accent:#7c5cff; --accent-soft:#efeaff;
+    --red:#dc2626; --red-soft:#fdeaea; --green:#16a34a;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);
+    color:var(--ink);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  button,input,select{font:inherit;color:inherit}
+  button{cursor:pointer}
+
+  .top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+    padding:12px 18px;background:rgba(255,253,249,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px}
+  .brand .logo{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;
+    background:linear-gradient(135deg,#7c5cff,#ff6f91);color:#fff;font-size:17px}
+  .brand small{display:block;font-size:11.5px;color:var(--mute);font-weight:600}
+  .grow{flex:1}
+  .btn{border:1px solid var(--line2);background:#fff;padding:8px 13px;border-radius:11px;font-weight:600;font-size:14px;
+    display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+  .btn:hover{border-color:var(--mute)}
+  .btn.primary{background:var(--ink);border-color:var(--ink);color:#fff}
+  .btn.sm{padding:6px 10px;font-size:13px;border-radius:9px}
+  .btn.ghost{background:transparent;border-color:transparent;color:var(--soft)}
+  .btn.ghost:hover{background:#f1ece3;color:var(--ink)}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:18px 16px 70px}
+  h1{font-size:23px;letter-spacing:-.03em;margin:0 0 4px}
+  .sub{color:var(--soft);font-size:13.5px;margin:0 0 16px}
+
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px}
+  .kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+  .kpi .l{font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--mute);font-weight:700}
+  .kpi .v{font-size:23px;font-weight:750;letter-spacing:-.03em;margin-top:2px}
+  .kpi.warn .v{color:var(--red)}
+
+  .filters{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px;
+    display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+  .filters input[type=search],.filters select{padding:9px 12px;border-radius:10px;border:1px solid var(--line2);background:#fff}
+  .filters input[type=search]{flex:1 1 240px;min-width:160px}
+  .chips{display:flex;gap:6px;flex-wrap:wrap;width:100%}
+  .chip{border:1px solid var(--line2);background:#fff;border-radius:999px;padding:5px 11px;font-size:12.5px;
+    font-weight:650;color:var(--soft);display:inline-flex;gap:6px;align-items:center}
+  .chip .d{width:8px;height:8px;border-radius:50%}
+  .chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  thead th{text-align:left;padding:10px 13px;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;
+    color:var(--mute);background:#fbf8f3;border-bottom:1px solid var(--line);font-weight:700;white-space:nowrap}
+  tbody td{padding:10px 13px;border-bottom:1px solid #f1ece3;vertical-align:middle}
+  tbody tr{cursor:pointer}
+  tbody tr:hover{background:#fbf8ff}
+  tbody tr:last-child td{border-bottom:0}
+  .num{font-variant-numeric:tabular-nums;color:var(--mute);font-weight:700;font-size:13px}
+  .name{font-weight:650}
+  .small{font-size:12.5px;color:var(--mute)}
+  .trunc{max-width:230px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .money{font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}
+  .money.over{color:var(--red)}
+  .badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:12.5px;font-weight:700;white-space:nowrap}
+  .badge .dot{width:7px;height:7px;border-radius:50%;background:currentColor}
+  .cc{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.06em;padding:1px 5px;border-radius:5px;margin-right:5px}
+  .cc-RU{background:#e8f0fe;color:#1d4ed8}.cc-BY{background:#fdecec;color:#b91c1c}.cc-KZ{background:#e6f7f0;color:#047857}
+  .empty{padding:44px 20px;text-align:center;color:var(--mute)}
+
+  /* модалка */
+  .ovl{position:fixed;inset:0;background:rgba(24,26,33,.4);z-index:40;display:none}
+  .ovl.show{display:block}
+  .modal{position:fixed;z-index:50;left:50%;top:50%;transform:translate(-50%,-50%);width:min(680px,94vw);
+    max-height:90vh;overflow:auto;background:#fffdf9;border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.25);
+    display:none;padding:20px}
+  .modal.show{display:block}
+  .modal h2{margin:0 0 2px;font-size:19px}
+  .rowline{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  .stbtn{border:1px solid var(--line2);background:#fff;border-radius:10px;padding:7px 11px;font-size:13px;
+    font-weight:650;display:inline-flex;gap:6px;align-items:center;color:var(--soft)}
+  .stbtn .dot{width:8px;height:8px;border-radius:50%}
+  .stbtn.on{color:#fff;border-color:transparent}
+  .stbtn.on .dot{background:#fff}
+  dl{margin:14px 0 0;display:grid;grid-template-columns:150px 1fr;gap:7px 12px;font-size:14px}
+  dt{color:var(--mute);font-size:12.5px;font-weight:650;padding-top:2px}
+  dd{margin:0;word-break:break-word}
+
+  /* настройка */
+  .setup{max-width:560px;margin:40px auto;padding:0 16px}
+  .setup .card{padding:22px}
+  .field{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+  label{font-size:13px;font-weight:650;color:var(--soft)}
+  .setup input{padding:11px 13px;border-radius:11px;border:1px solid var(--line2);width:100%}
+  .setup input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .hint{font-size:12.5px;color:var(--mute)}
+  .err{background:var(--red-soft);color:var(--red);border-radius:11px;padding:10px 12px;font-size:13.5px;margin-top:10px;display:none}
+  .err.show{display:block}
+
+  .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:80;background:var(--ink);color:#fff;
+    padding:10px 18px;border-radius:11px;font-size:13.5px;font-weight:600;box-shadow:0 12px 30px rgba(0,0,0,.2);display:none}
+  .toast.show{display:block}
+  .toast.err{background:var(--red)}
+
+  @media (max-width:800px){
+    .wrap{padding:14px 12px 70px}
+    thead{display:none}
+    table,tbody{display:block;width:100%}
+    tbody tr{display:grid;grid-template-columns:1fr auto;
+      grid-template-areas:"num st" "client st" "country country" "pvz pvz" "gift sum" "date date";
+      gap:3px 10px;border:1px solid var(--line);border-radius:14px;margin:0 0 10px;padding:12px 14px;background:#fff}
+    tbody td{border:0;padding:0}
+    td[data-a="num"]{grid-area:num} td[data-a="client"]{grid-area:client}
+    td[data-a="country"]{grid-area:country;margin-top:2px}
+    td[data-a="pvz"]{grid-area:pvz;margin-top:6px}
+    td[data-a="gift"]{grid-area:gift;margin-top:6px}
+    td[data-a="sum"]{grid-area:sum;text-align:right;margin-top:6px}
+    td[data-a="st"]{grid-area:st;justify-self:end;align-self:start}
+    td[data-a="date"]{grid-area:date;margin-top:8px;padding-top:6px;border-top:1px dashed #eee}
+    td[data-a="pvz"]::before{content:"ПВЗ: ";color:var(--mute);font-size:12px}
+    td[data-a="gift"]::before{content:"Подарок: ";color:var(--mute);font-size:12px}
+    .card{background:transparent;border:0}
+    .trunc{max-width:none;white-space:normal}
+    .filters>*{flex:1 1 100%}
+    .chips{flex-wrap:nowrap;overflow-x:auto}
+    .chip{flex:none}
+    .kpis{grid-template-columns:repeat(2,1fr)}
+    dl{grid-template-columns:1fr;gap:2px}
+    dt{padding-top:8px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ ЭКРАН НАСТРОЙКИ ============ -->
+<div class="setup" id="setup" hidden>
+  <div class="card">
+    <h2 style="margin:0 0 6px;font-size:19px">Подключение к таблице</h2>
+    <p class="hint" style="margin:0 0 16px">Один раз вставьте ссылку веб-приложения Google Apps Script (из файла Code.gs) и секретную строку. Данные сохранятся в этом браузере.</p>
+    <div class="field">
+      <label>Ссылка веб-приложения</label>
+      <input id="cfg-api" placeholder="https://script.google.com/macros/s/…/exec" />
+    </div>
+    <div class="field">
+      <label>Секретный код (token)</label>
+      <input id="cfg-token" placeholder="anna-podarki-2026" />
+    </div>
+    <div class="field">
+      <label>Ссылка на таблицу (не обязательно)</label>
+      <input id="cfg-sheet" placeholder="https://docs.google.com/spreadsheets/d/…" />
+    </div>
+    <button class="btn primary" id="cfg-save" style="width:100%;justify-content:center">Сохранить и загрузить заявки</button>
+    <div class="err" id="cfg-err"></div>
+  </div>
+</div>
+
+<!-- ============ ПРИЛОЖЕНИЕ ============ -->
+<div id="app" hidden>
+  <div class="top">
+    <div class="brand"><span class="logo">🎁</span>
+      <span>Заявки<small>Анна Морозова · @dr.annamorozova</small></span>
+    </div>
+    <div class="grow"></div>
+    <button class="btn sm" id="btn-reload">↻ Обновить</button>
+    <a class="btn sm" id="btn-sheet" href="#" target="_blank" rel="noopener">📊 Таблица</a>
+    <a class="btn sm" href="index.html" target="_blank">🔗 Форма</a>
+    <button class="btn sm ghost" id="btn-config" title="Настройки">⚙</button>
+  </div>
+
+  <div class="wrap">
+    <h1>Заявки на подарки</h1>
+    <p class="sub" id="sub">Загружаю…</p>
+
+    <div class="kpis" id="kpis"></div>
+
+    <div class="filters">
+      <input type="search" id="q" placeholder="Поиск: имя, ник, город, адрес ПВЗ, подарок, номер заказа…" />
+      <select id="country">
+        <option value="">Все страны</option>
+        <option value="Россия">Россия</option>
+        <option value="Беларусь">Беларусь</option>
+        <option value="Казахстан">Казахстан</option>
+      </select>
+      <button class="btn sm" id="btn-copy">📋 Скопировать адреса</button>
+      <div class="chips" id="chips"></div>
+    </div>
+
+    <div class="card">
+      <table>
+        <thead><tr>
+          <th>№</th><th>Клиент / Threads</th><th>Страна</th><th>ПВЗ</th><th>Подарок</th><th>Сумма</th><th>Статус</th><th>Дата</th>
+        </tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+      <div class="empty" id="empty" hidden>Пока пусто — заявки появятся здесь, как только кто-то заполнит форму.</div>
+    </div>
+  </div>
+</div>
+
+<div class="ovl" id="ovl"></div>
+<div class="modal" id="modal"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* ==================== НАСТРОЙКА ==================== */
+const LIMIT = 2000;
+const CFG_KEY = 'podarki_cfg_v1';
+let cfg = {};
+try { cfg = JSON.parse(localStorage.getItem(CFG_KEY) || '{}'); } catch (e) { cfg = {}; }
+let ALL = [];
+let filters = { q: '', status: '', country: '' };
+
+const STATUS = [
+  { key: 'Новая', label: 'Новая', color: '#2563eb' },
+  { key: 'Согласована', label: 'Согласована', color: '#7c3aed' },
+  { key: 'Заказано', label: 'Заказано', color: '#d97706' },
+  { key: 'В пути', label: 'В пути', color: '#0891b2' },
+  { key: 'Получено', label: 'Получено', color: '#16a34a' },
+  { key: 'Проблема', label: 'Проблема', color: '#dc2626' },
+  { key: 'Отменена', label: 'Отменена', color: '#64748b' },
+];
+const ACTIVE = ['Новая', 'Согласована', 'Заказано', 'В пути'];
+const CCODE = { 'Россия': 'RU', 'Беларусь': 'BY', 'Казахстан': 'KZ' };
+
+const $ = (s, r = document) => r.querySelector(s);
+const esc = (v) => String(v === undefined || v === null ? '' : v)
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+const money = (n) => new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 0 }).format(Math.round(Number(n) || 0)) + ' ₽';
+const num = (n) => new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 2 }).format(Number(n) || 0);
+const costOf = (r) => Number(String(r.costRub || 0).replace(',', '.').replace(/\s|₽/g, '')) || 0;
+const isOver = (r) => costOf(r) > LIMIT + 0.01;
+const stOf = (k) => STATUS.find((s) => s.key === k) || { key: k, label: k || '—', color: '#64748b' };
+
+let toastTimer;
+function toast(msg, isErr) {
+  const t = $('#toast');
+  t.textContent = msg;
+  t.className = 'toast show' + (isErr ? ' err' : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.className = 'toast'; }, 2600);
+}
+async function copyText(text) {
+  let ok = false;
+  try { await navigator.clipboard.writeText(text); ok = true; } catch (e) {}
+  if (!ok) {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { ok = document.execCommand('copy'); } catch (_) {}
+    ta.remove();
+  }
+  toast(ok ? 'Скопировано ✓' : 'Не удалось скопировать — выделите вручную', !ok);
+}
+
+/* ==================== СЕТЬ ==================== */
+async function apiLoad() {
+  const url = cfg.api + (cfg.api.indexOf('?') >= 0 ? '&' : '?') + 'token=' + encodeURIComponent(cfg.token || '');
+  const res = await fetch(url, { method: 'GET', redirect: 'follow' });
+  const text = await res.text();
+  let data;
+  try { data = JSON.parse(text); } catch (e) {
+    throw new Error('Ответ не похож на JSON. Проверьте, что веб-приложение развёрнуто с доступом «Все» и ссылка заканчивается на /exec');
+  }
+  if (!data.ok) throw new Error(data.error || 'Ошибка доступа');
+  return data.requests || [];
+}
+
+async function apiSave(record) {
+  const res = await fetch(cfg.api, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({ token: cfg.token || '', action: 'upsert', record: record }),
+    redirect: 'follow',
+  });
+  const text = await res.text();
+  let data;
+  try { data = JSON.parse(text); } catch (e) { return { ok: true }; }
+  if (data && data.ok === false) throw new Error(data.error || 'Не сохранилось');
+  return data;
+}
+
+/* ==================== РЕНДЕР ==================== */
+function render() {
+  const kpis = $('#kpis');
+  const all = ALL;
+  const fresh = all.filter((r) => r.status === 'Новая').length;
+  const active = all.filter((r) => ACTIVE.indexOf(r.status) >= 0).length;
+  const done = all.filter((r) => r.status === 'Получено').length;
+  const spent = all.filter((r) => r.status !== 'Отменена').reduce((s, r) => s + costOf(r), 0);
+  const over = all.filter((r) => isOver(r) && r.status !== 'Отменена').length;
+
+  kpis.innerHTML = [
+    ['Всего заявок', all.length, ''],
+    ['Новые', fresh, ''],
+    ['В работе', active, ''],
+    ['Получено', done, ''],
+    ['Потрачено', money(spent), ''],
+    ['Больше лимита', over, over ? 'warn' : ''],
+  ].map(([l, v, cls]) => `<div class="kpi ${cls}"><div class="l">${l}</div><div class="v">${v}</div></div>`).join('');
+
+  const counts = {};
+  all.forEach((r) => { counts[r.status] = (counts[r.status] || 0) + 1; });
+  $('#chips').innerHTML =
+    `<button class="chip ${filters.status === '' ? 'on' : ''}" data-st="">Все ${all.length}</button>` +
+    STATUS.map((s) => `<button class="chip ${filters.status === s.key ? 'on' : ''}" data-st="${esc(s.key)}">
+        <span class="d" style="background:${s.color}"></span>${s.label} ${counts[s.key] || 0}</button>`).join('');
+
+  const q = filters.q.toLowerCase();
+  const list = all.filter((r) => {
+    if (filters.status && r.status !== filters.status) return false;
+    if (filters.country && String(r.country || '') !== filters.country) return false;
+    if (q) {
+      const hay = [r.num, r.clientName, r.threadsNick, r.city, r.pvzAddress, r.pvzOperator,
+        r.giftName, r.orderNumber, r.track, r.internalNote].join(' ').toLowerCase();
+      if (hay.indexOf(q) < 0) return false;
+    }
+    return true;
+  });
+
+  $('#rows').innerHTML = list.map((r) => {
+    const st = stOf(r.status);
+    const cc = CCODE[r.country] || '';
+    const over = isOver(r);
+    return `<tr data-num="${esc(r.num)}">
+      <td class="num" data-a="num">${esc(r.num)}</td>
+      <td data-a="client"><div class="name">${esc(r.clientName) || '—'}</div><div class="small">${esc(r.threadsNick) || '—'}</div></td>
+      <td data-a="country"><span class="cc cc-${cc}">${cc}</span>${esc(r.country) || '—'}${r.city ? ' · ' + esc(r.city) : ''}</td>
+      <td data-a="pvz"><div class="trunc">${esc(r.pvzOperator) || '—'}</div><div class="small trunc">${esc(r.pvzAddress) || '—'}</div></td>
+      <td data-a="gift"><div class="trunc">${esc(r.giftName) || 'ссылка'}</div><div class="small">${esc(r.marketplace) || ''}</div></td>
+      <td class="money ${over ? 'over' : ''}" data-a="sum">${money(costOf(r))}
+        <div class="small" style="font-weight:500">${num(r.giftPrice)} ${esc(r.currency)}${Number(r.qty) > 1 ? ' × ' + r.qty : ''}</div></td>
+      <td data-a="st"><span class="badge" style="color:${st.color};background:${st.color}1a"><span class="dot"></span>${st.label}</span></td>
+      <td class="small" data-a="date">${esc(r.createdAt)}</td>
+    </tr>`;
+  }).join('');
+
+  $('#empty').hidden = list.length > 0;
+  $('#rows').querySelectorAll('tr').forEach((tr) => {
+    tr.addEventListener('click', () => openCard(tr.dataset.num));
+  });
+  $('#sub').textContent = `${all.length} заявок · лимит подарка ${money(LIMIT)} · данные из Google Таблицы`;
+}
+
+function openCard(numStr) {
+  const r = ALL.find((x) => String(x.num) === String(numStr));
+  if (!r) return;
+  const st = stOf(r.status);
+  const rows = [
+    ['Клиент', r.clientName], ['Ник в Threads', r.threadsNick], ['Источник', r.source],
+    ['Страна, город', [r.country, r.city].filter(Boolean).join(', ')],
+    ['ПВЗ', [r.pvzOperator, r.pvzCode].filter(Boolean).join(' · ')],
+    ['Адрес ПВЗ', r.pvzAddress],
+    ['Подарок', r.giftName], ['Маркетплейс', r.marketplace],
+    ['Ссылка', r.giftLink ? `<a href="${esc(r.giftLink)}" target="_blank" rel="noopener">открыть товар →</a>` : ''],
+    ['Цена', r.giftPrice ? `${num(r.giftPrice)} ${r.currency}${Number(r.qty) > 1 ? ' × ' + r.qty : ''}` : ''],
+    ['Итого ₽', `<b>${money(costOf(r))}</b>${isOver(r) ? ' <span style="color:#dc2626">(больше лимита)</span>' : ''}`],
+    ['Номер заказа', r.orderNumber], ['Трек', r.track],
+    ['Создана', r.createdAt], ['Обновлена', r.updatedAt],
+    ['Заметка', r.internalNote],
+  ].filter(([, v]) => v !== '' && v !== undefined && v !== null);
+
+  $('#modal').innerHTML = `
+    <div style="display:flex;gap:10px;align-items:flex-start">
+      <div style="flex:1">
+        <h2>Заявка №${esc(r.num)}</h2>
+        <div class="small">${esc(r.clientName)} ${esc(r.threadsNick)}</div>
+      </div>
+      <button class="btn sm ghost" id="m-close">✕</button>
+    </div>
+    <div class="rowline" id="m-status">
+      ${STATUS.map((s) => `<button class="stbtn ${r.status === s.key ? 'on' : ''}" data-set="${esc(s.key)}"
+        style="${r.status === s.key ? `background:${s.color}` : ''}"><span class="dot" style="background:${s.color}"></span>${s.label}</button>`).join('')}
+    </div>
+    <dl>${rows.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>
+    <div class="rowline">
+      <button class="btn sm" id="m-copy">📋 Скопировать данные</button>
+      ${r.giftLink ? `<a class="btn sm" href="${esc(r.giftLink)}" target="_blank" rel="noopener">🛒 Открыть товар</a>` : ''}
+    </div>`;
+
+  $('#modal').classList.add('show');
+  $('#ovl').classList.add('show');
+  $('#m-close').addEventListener('click', closeCard);
+  $('#m-copy').addEventListener('click', () => copyText(cardText(r)));
+  $('#m-status').querySelectorAll('[data-set]').forEach((b) => {
+    b.addEventListener('click', () => changeStatus(r, b.dataset.set, b));
+  });
+}
+
+function closeCard() {
+  $('#modal').classList.remove('show');
+  $('#ovl').classList.remove('show');
+}
+
+function cardText(r) {
+  return [
+    `Заявка №${r.num} · ${r.status}`,
+    `Клиент: ${r.clientName} ${r.threadsNick || ''}`.trim(),
+    `Страна/город: ${r.country}, ${r.city}`,
+    `ПВЗ: ${r.pvzOperator} ${r.pvzCode || ''}`.trim(),
+    `Адрес: ${r.pvzAddress}`,
+    `Подарок: ${r.giftName || '—'}`,
+    `Ссылка: ${r.giftLink || '—'}`,
+    `Цена: ${num(r.giftPrice)} ${r.currency} = ${money(costOf(r))}`,
+    r.orderNumber ? `Заказ: ${r.orderNumber}` : '',
+    r.track ? `Трек: ${r.track}` : '',
+  ].filter(Boolean).join('\n');
+}
+
+async function changeStatus(r, newStatus, btn) {
+  const prev = r.status;
+  if (prev === newStatus) return;
+  btn.disabled = true;
+  const stamp = new Date().toLocaleString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  const rec = Object.assign({}, r, { status: newStatus, updatedAt: stamp });
+  try {
+    await apiSave(rec);
+    r.status = newStatus;
+    r.updatedAt = stamp;
+    render();
+    closeCard();
+    toast('Статус: ' + newStatus);
+  } catch (e) {
+    toast('Не сохранилось: ' + e.message, true);
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+/* ==================== СОБЫТИЯ ==================== */
+$('#q').addEventListener('input', (e) => { filters.q = e.target.value; render(); });
+$('#country').addEventListener('change', (e) => { filters.country = e.target.value; render(); });
+$('#chips').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-st]');
+  if (!b) return;
+  filters.status = b.dataset.st;
+  render();
+});
+$('#btn-reload').addEventListener('click', () => load(true));
+$('#btn-copy').addEventListener('click', () => {
+  const list = ALL.filter((r) => r.status !== 'Отменена');
+  if (!list.length) return toast('Нет заявок', true);
+  copyText(list.map((r) => `№${r.num} · ${r.clientName} ${r.threadsNick || ''}\n${r.country}, ${r.city} · ${r.pvzOperator}\n${r.pvzAddress}\nПодарок: ${r.giftName || r.giftLink} — ${num(r.giftPrice)} ${r.currency}`).join('\n\n'));
+});
+$('#ovl').addEventListener('click', closeCard);
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCard(); });
+$('#btn-config').addEventListener('click', showSetup);
+
+function showSetup() {
+  $('#setup').hidden = false;
+  $('#app').hidden = true;
+  $('#cfg-api').value = cfg.api || '';
+  $('#cfg-token').value = cfg.token || cfg.token === '' ? (cfg.token || '') : '';
+  $('#cfg-sheet').value = cfg.sheet || '';
+}
+$('#cfg-save').addEventListener('click', async () => {
+  const api = $('#cfg-api').value.trim();
+  const token = $('#cfg-token').value.trim();
+  const sheet = $('#cfg-sheet').value.trim();
+  const err = $('#cfg-err');
+  err.classList.remove('show');
+  if (!api) { err.textContent = 'Вставьте ссылку веб-приложения'; err.classList.add('show'); return; }
+  cfg = { api: api, token: token, sheet: sheet };
+  localStorage.setItem(CFG_KEY, JSON.stringify(cfg));
+  await load(true);
+});
+
+/* ==================== СТАРТ ==================== */
+async function load(force) {
+  if (!cfg.api) return showSetup();
+  $('#setup').hidden = true;
+  $('#app').hidden = false;
+  $('#btn-sheet').href = cfg.sheet || 'https://docs.google.com/spreadsheets/';
+  try {
+    ALL = await apiLoad();
+    render();
+    if (force) toast('Загружено заявок: ' + ALL.length);
+  } catch (e) {
+    $('#sub').textContent = 'Не удалось загрузить данные';
+    $('#rows').innerHTML = '';
+    $('#empty').hidden = false;
+    $('#empty').textContent = 'Ошибка: ' + e.message;
+    if (!ALL.length) toast(e.message, true);
+  }
+}
+load(false);
+</script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a5e229f6fc728f27',t:'MTc5NTI5MDAwMw=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a5e229f6fc728f27',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
